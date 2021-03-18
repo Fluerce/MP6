@@ -1,0 +1,91 @@
+<meta name="viewport" content="width=device-width, initial-scale=1"> <style> .block { display: block; width: 100%; border: none; background-color: #ffb65c; color: white; padding: 14px 28px; font-size: 16px; cursor: pointer; text-align: center; } .block:hover { background-color: #ffd29c; color: black; }</style> </head><p><span style="text-decoration: underline;"><strong>"Join here for free Chegg Unlocks: https://discord.gg/KReREmHMgr"</strong></span></p> <body> <button class="block">Question</button>
+<p>A close friend of yours works as a freelance copy typist,
+working at home, for one of the Business<br>
+Process Outsourcing (BPO) companies in Korea. Every Saturday
+evening, this friend receives copy-<br>
+typing projects of various sizes, typically 50 to 500 pages of
+copy-typing work, some of which she must<br>
+complete and submit back immediately.</p>
+<p>To help her manage, you decided to write a program that would
+schedule the copy-typing projects she<br>
+receives. In this program, you will input the details of each
+project that arrives and store this<br>
+information in a text file. Only copy-typing projects with
+information in this text file will be scheduled<br>
+for copy-typing by placing them in a queue. You decided to apply
+the priority scheduling protocol and<br>
+therefore place the project that must be completed immediately in
+the front of the queue and the<br>
+project that may be delayed at the rear. Following is the general
+outline of your algorithm:</p>
+<p>1. Input the copy-typing projects, with their size (number of
+pages) and priority information (the<br>
+lower the number, the higher the priority) into the text
+file.<br>
+2. In a queue, sort the projects according to priority. If two
+projects has equal priority, then sort<br>
+according to size, in ascending order (shortest-job first).<br>
+3. Apply first-come-first-served algorithm by getting the project
+from the front of the queue<br>
+working until the one at the rear is completed.<br>
+Your task, therefore, is to design, implement, and test the program
+just described using Python<br>
+Programming Language.</p>
+<button class="block">Answer</button><hr>
+<p>For constructing this program we will take the help of the priority queue (heap) We will use priority as the first parameter to sort and size as the second parameter to sort.</p>
+
+<p>Implmentation in python :</p>
+
+<p>code snippet:</p>
+
+<p><img src="https://media.cheggcdn.com/coop/e3e/e3e75613-a28d-48d5-abca-e32a974468d5/1615816363495_image.png" style="height:689px;width:983px" alt="1
+from heapq import heappush, heappop , heapify
+2
+3.
+4.
+=
+5
+6
+#initalizing heap for storing the task
+heap []
+heapify(heap)
+wh"></p>
+
+<p>Output:</p>
+
+<p><img src="https://media.cheggcdn.com/coop/303/303ae43b-fbe5-4d13-b75b-383ca4cdeaa8/1615816414560_image.png" style="height:606px;width:592px" alt="Enter the details for the copy typing project
+Enter the size of the project : 45
+Enter the priority of the project : 6
+Do you"></p>
+
+<p>&nbsp;</p>
+
+<p>code:</p>
+
+<pre>
+<code class="language-python">from heapq import heappush,heappop ,heapify
+
+#initalizing heap for storing the task
+heap = []
+heapify(heap)
+while True :
+    print("Enter the details for the copy typing project ")
+    size = float(input("Enter the size of the project : "))
+    priority = int(input("Enter the priority of the project : "))
+
+    #push the details into the heap
+    heappush(heap,(priority,size))
+
+    choice = input("Do you want to add more projects : ")
+    #if don;t want to add more details
+    if choice.upper() == "N":
+        break
+
+#now printing the details of the project details
+while heap :
+    priority,size = heappop(heap)
+    print(f"You have to complete the project of {size} size and {priority} priority")
+</code></pre>
+
+<p>If you have any doubt regarding the solution the ask in the comment box I will always be there to answer you.</p>
+</body>
