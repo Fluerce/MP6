@@ -12,7 +12,6 @@ def printMenu():
 # -------------------------------------------------------------------------
 
 functions.initFile()
-madeSchedule = False;
 
 while True:
   printMenu()
@@ -27,9 +26,12 @@ while True:
     if choice1 == 'a':
       functions.view_one()
     elif choice1 == 'b':
-      print ("completed project")   
+      functions.viewCompleted()  
     elif choice1 == 'c':
-      functions.view_all();
+      print ("Active Projects")
+      functions.view_all()
+      print ("Completed Projects")
+      functions.viewCompleted()
     else:
       print("Choice is not in the scope")
   elif choice == 3:
@@ -40,7 +42,7 @@ while True:
       functions.createSchedule()
       madeSchedule = True
     elif choice3 == 'b':
-      functions.viewSchedule(madeSchedule)
+      functions.viewSchedule()
     else:
       print("Choice is not in the scope")
   elif choice == 4:

@@ -5,20 +5,12 @@ projects = []
 
 #initialization - OOP for schedule
 def initFile():
-  mode = 'a' if os.path.exists('projects.csv') else 'w+'
   files = ['projects.csv','schedules.csv', 'completed.csv']
-  if mode == 'w+':
-    for file in files:
-      with open(file, mode, newline='') as csvfile:
-        if mode == 'w+':
-          writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-          writer.writeheader()
-          
-  filename = 'projects.csv' if scheduleEmpty() else 'schedules.csv'
-  with open(filename, 'r') as csvfile:
-    reader=csv.DictReader(csvfile)
-    for row in reader:
-      projects.append(projclass.Projects(row['id_number'],row['title'],row['size'],row['priority']))
+  for file in files:
+    if not os.path.exists(file):
+      with open(file, 'w+', newline='') as csvfile:
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
 
 #function for inputting projects
 def inputProject():
@@ -29,7 +21,6 @@ def inputProject():
     project_size=eval(input("Enter the number of pages: "))
     project_priority=eval(input("Enter project priority [lower number-higher priority]: "))
     writer.writerow({'id_number':project_idnumber,'title':project_title,'size':project_size,'priority':project_priority})
-    projects.append(projclass.Projects(project_idnumber,project_title,project_size,str(project_priority)))
     print("Input Project Successful")
 
 #function for viewing all projects
@@ -64,42 +55,59 @@ def projectEmpty():
 def scheduleEmpty():
   return os.stat('schedules.csv').st_size <= 31
 
-#sort the available schedules on the class
-def createSchedule():
-  projects.sort(key = operator.attrgetter('priority','size'))
-  inputSchedule()
-  print ("Schedule Created!")
-  
-  
+def completedEmpty():
+  return os.stat('completed.csv').st_size <= 31
 
-#view all schedules
-def viewSchedule(madeSchedule):
-  if(scheduleEmpty() and not madeSchedule):
-    print("Create a Schedule First!")
-  else:
-    for project in projects:
-      print("ID Number:",project.id_number,"| Title:", project.title, 
-            "| Project size:", project.size, "| Priority:", project.priority)
-      
 def inputSchedule():
   with open('schedules.csv', 'w+', newline='') as csvfile:
     writer=csv.DictWriter(csvfile, fieldnames=fieldnames) 
     writer.writeheader()
     for project in projects:
-      writer.writerow({'id_number':project.id_number,'title':project.title,'size':project.size,'priority':project.priority})
+      writer.writerow({'id_number':project.id_number,'title':project.title,'size':project.size,'priority':project.priority})    
+
+def createSchedule():
+  projects.clear();
+  with open('projects.csv', 'r') as csvfile:
+    reader=csv.DictReader(csvfile)
+    for row in reader:
+      projects.append(projclass.Projects(row['id_number'],row['title'],row['size'],row['priority']))
+  projects.sort(key = operator.attrgetter('priority','size'))
+  inputSchedule()
+  print ("Schedule Created!")
+
+  
+def viewCompleted():
+  if(completedEmpty()):
+    print("No Completed Projects Yet!")
+  else:
+    with open('completed.csv', 'r') as csvfile:
+      reader=csv.DictReader(csvfile)
+      for row in reader:
+         print("ID Number:",row['id_number'],"| Title:",row['title'],
+               "| Project size:",row['size'],"| Priority:",row['priority'])
+          
+#view all schedules
+def viewSchedule():
+  if(scheduleEmpty()):
+    print("Create a Schedule First!")
+  else:
+    with open('schedules.csv', 'r') as csvfile:
+      reader=csv.DictReader(csvfile)
+      for row in reader:
+         print("ID Number:",row['id_number'],"| Title:",row['title'],
+               "| Project size:",row['size'],"| Priority:",row['priority'])
       
 def popList():
   temp = []
   if(scheduleEmpty()):
     print("Create a Schedule First!")
   else:
-    mode = 'a' if os.path.exists('completed.csv') else 'w+'
     with open("schedules.csv",'r') as sched:
       val = sched.readlines()
       pull = val[1]
       temp.append(val[0])
       temp.append(val[2:])
-      with open("completed.csv",mode) as completed:
+      with open("completed.csv",'a') as completed:
         completed.write(pull)
       with open("schedules.csv",'w') as sched:
         for line in temp:
@@ -112,11 +120,14 @@ def popList():
       with open("projects.csv", 'w') as proj:
         for line in temp:
           proj.writelines(line)
-            
+    print("Project Popped!")
+      
+        
     
       
     
 
+      
       
       
 
