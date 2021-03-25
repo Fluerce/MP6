@@ -120,7 +120,7 @@ def createSchedule():
     with open('projects.csv', 'r') as csvfile:
       reader=csv.DictReader(csvfile)
       for row in reader:
-        projects.append(projclass.Projects(row['id_number'],row['title'],row['size'],row['priority']))
+        projects.append(projclass.Projects(row['id_number'],row['title'],int(row['size']),int(row['priority'])))
     projects.sort(key = operator.attrgetter('priority','size'))
     inputSchedule()
     print ("Schedule Created!")
@@ -136,7 +136,7 @@ def viewCompleted():
          print("ID Number:",row['id_number'],"| Title:",row['title'],
                "| Project size:",row['size'],"| Priority:",row['priority'])
           
-#view all schedules
+#this function view the schedules in the system
 def viewSchedule():
   if(scheduleEmpty()):
     print("Create a Schedule First!")
